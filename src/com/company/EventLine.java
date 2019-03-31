@@ -15,6 +15,7 @@ public class EventLine{
         if(!this.incomingEvents.isEmpty()){
             TEvent Next = this.incomingEvents.removeLast();
             this.pastEvents.add(Next);
+            return Next;
         }
         else
             return null;
