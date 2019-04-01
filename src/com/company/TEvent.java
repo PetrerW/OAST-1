@@ -3,13 +3,24 @@ package com.company;
 //queue Event
 public class TEvent {
     //Arrival time
-    private int time;
+    private double time;
     private String type;
 
-    public int get_time(){
+    public TEvent(){
+        time = 0;
+        type = "A";
+    }
+
+    public TEvent(double time, String type){
+        this.time = time;
+        this.type = type;
+    }
+
+    public double get_time(){
         return this.time;
     }
-    public void set_sime(int _time){
+
+    public void set_sime(double _time){
         this.time = _time;
     }
 
