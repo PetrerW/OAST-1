@@ -25,7 +25,7 @@ public class EventLineTester {
 
     public boolean put_test(){
         this.Events = generate_events();
-        //TODO: First create EventLine constructor,then come back here and initialize the EL with an array
-        EventLine EL = new EventLine();
+        EventLine EL = new EventLine(this.Events, new TEvent[0],0 );
+        //TODO finish the test
     }
 }

@@ -1,6 +1,8 @@
 package com.company;
 
+import java.lang.reflect.Array;
 import java.time.temporal.Temporal;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.*;
@@ -12,10 +14,16 @@ public class EventLine{
     private LinkedList<TEvent> pastEvents;
     private double currentTime;
 
+    public EventLine(){
+        currentTime = 0;
+        pastEvents = new LinkedList<TEvent>();
+        incomingEvents = new LinkedList<TEvent>();
+    }
+
     public EventLine(TEvent[] incoming, TEvent[] past, double _currentTime){
         this.incomingEvents = new LinkedList<TEvent>();
-        //TODO: Fix this. Add correctly the array to the list
-        this.incomingEvents.addAll(incoming);
+        this.incomingEvents.addAll(Arrays.asList(incoming));
+        this.pastEvents.addAll(Arrays.asList(past));
     }
 
     /**
