@@ -31,4 +31,10 @@ public class TEvent {
     public void set_type(String _type){
         this.type = _type;
     }
+
+    @Override
+    public String toString(){
+        final String s = this.get_type() + " " + this.get_time();
+        return s;
+    }
 }

@@ -1,11 +1,8 @@
 package com.company;
 
-import java.lang.reflect.Array;
-import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.*;
+import java.util.Collections;
 
 // Class with Events (past and new)
 public class EventLine{
@@ -23,7 +20,10 @@ public class EventLine{
     public EventLine(TEvent[] incoming, TEvent[] past, double _currentTime){
         this.incomingEvents = new LinkedList<TEvent>();
         this.incomingEvents.addAll(Arrays.asList(incoming));
+        Collections.sort(this.incomingEvents, new TEventComparator());
+        this.pastEvents = new LinkedList<TEvent>();
         this.pastEvents.addAll(Arrays.asList(past));
+        Collections.sort(this.pastEvents, new TEventComparator());
     }
 
     /**
@@ -51,7 +51,7 @@ public class EventLine{
         if(newTime>=this.currentTime){
             // add() moves to the right all subsequent elements
             //TODO: Check if correctly added to the list
-            int index = findFirstGreaterThan(newTime) + 1;
+            int index = findFirstLowerThan(newTime);
             this.incomingEvents.add(index, NewEvent);
             return true;
         }
@@ -63,12 +63,36 @@ public class EventLine{
     /**
      * @return Index of the first event with greater time of arrival than the _time
      */
-    private int findFirstGreaterThan(double _time){
+    private int findFirstLowerThan(double _time){
         TEvent E = this.incomingEvents.stream()
-                .filter(x -> x.get_time() > _time)
+                .filter(x -> x.get_time() < _time)
                 .findFirst()
                 .orElse(null);
 
         return this.incomingEvents.indexOf(E);
+    }
+
+    public LinkedList<TEvent> getIncomingEvents() {
+        return incomingEvents;
+    }
+
+    public void setIncomingEvents(LinkedList<TEvent> IncomingEvents){
+        this.incomingEvents = IncomingEvents;
+    }
+
+    public LinkedList<TEvent> getPastEvents(){
+        return this.pastEvents;
+    }
+
+    public void setPastEvents(LinkedList<TEvent> PastEvents){
+        this.pastEvents = PastEvents;
+    }
+
+    public double getCurrentTime(){
+        return this.currentTime;
+    }
+
+    public void setCurrentTime(double time){
+        this.currentTime = time;
     }
 }
