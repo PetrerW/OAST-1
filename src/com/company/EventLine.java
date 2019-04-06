@@ -50,7 +50,6 @@ public class EventLine{
         double newTime = NewEvent.get_time();
         if(newTime>=this.currentTime){
             // add() moves to the right all subsequent elements
-            //TODO: Check if correctly added to the list
             int index = findFirstLowerThan(newTime);
             this.incomingEvents.add(index, NewEvent);
             return true;
