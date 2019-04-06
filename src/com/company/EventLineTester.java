@@ -26,7 +26,6 @@ public class EventLineTester {
     public boolean constructor_test(){
         this.Events = generate_events();
         EventLine EL = new EventLine(this.Events, new TEvent[1],0 );
-        //TODO finish the test
         final LinkedList<TEvent> incoming = EL.getIncomingEvents();
         for (int i = 0; i < this.Events.length; i++) {
             System.out.println(this.Events[i]);
@@ -52,7 +51,6 @@ public class EventLineTester {
     public boolean put_test(){
         this.Events = generate_events();
         EventLine EL = new EventLine(this.Events, new TEvent[0],0 );
-        //TODO finish the test
         System.out.println("Before adding an Event:");
         for (int i = 0; i < this.Events.length; i++) {
             System.out.println("[" + i + "]" + this.Events[i]);
@@ -76,7 +74,6 @@ public class EventLineTester {
     public boolean get_test(){
         this.Events = generate_events();
         EventLine EL = new EventLine(this.Events, new TEvent[0],0 );
-        //TODO finish the test
         System.out.println("Before removing an Event:");
         System.out.println("Incoming list:");
         for (int i = 0; i < EL.getIncomingEvents().size(); i++) {
