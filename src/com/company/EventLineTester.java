@@ -1,7 +1,5 @@
 package com.company;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class EventLineTester {
@@ -11,7 +9,7 @@ public class EventLineTester {
      * Generate a fixed array for the test purposes
      * @return array of TEvent objects
      */
-    private TEvent[] generate_events(){
+    private TEvent[] generateEvents(){
         TEvent[] Arr = {
                 (new TEvent(0.5, "A")),
                 (new TEvent(1, "B")),
@@ -23,14 +21,14 @@ public class EventLineTester {
         return Arr;
     }
 
-    public boolean constructor_test(){
-        this.Events = generate_events();
+    public boolean constructorTest(){
+        this.Events = generateEvents();
         EventLine EL = new EventLine(this.Events, new TEvent[1],0 );
         final LinkedList<TEvent> incoming = EL.getIncomingEvents();
         for (int i = 0; i < this.Events.length; i++) {
             System.out.println(this.Events[i]);
             //Check if copied in a good way
-            if(! incoming.get(i).get_type().equals(Events[i]))
+            if(! incoming.get(i).getType().equals(Events[i]))
                 continue;
             else
                 return false;
@@ -40,7 +38,7 @@ public class EventLineTester {
         for (int i = 0; i < this.Events.length; i++) {
             System.out.println(this.Events[i]);
             //Check if copied in a good way
-            if(! past.get(i).get_type().equals(Events[i]))
+            if(! past.get(i).getType().equals(Events[i]))
                 continue;
             else
                 return false;
@@ -48,8 +46,8 @@ public class EventLineTester {
         return true;
     }
 
-    public boolean put_test(){
-        this.Events = generate_events();
+    public boolean putTest(){
+        this.Events = generateEvents();
         EventLine EL = new EventLine(this.Events, new TEvent[0],0 );
         System.out.println("Before adding an Event:");
         for (int i = 0; i < this.Events.length; i++) {
@@ -62,17 +60,17 @@ public class EventLineTester {
             System.out.println("[" + i + "]" + EL.getIncomingEvents().get(i));
         }
         if (EL.getIncomingEvents().get(2).toString().contentEquals(E.toString())) {
-            System.out.println("put_test succeeded");
+            System.out.println("putTest succeeded");
             return true;
         }
         else{
-            System.out.println("put_test failed");
+            System.out.println("putTest failed");
             return false;
         }
     }
 
-    public boolean get_test(){
-        this.Events = generate_events();
+    public boolean getTest(){
+        this.Events = generateEvents();
         EventLine EL = new EventLine(this.Events, new TEvent[0],0 );
         System.out.println("Before removing an Event:");
         System.out.println("Incoming list:");
@@ -99,7 +97,7 @@ public class EventLineTester {
         }
         System.out.println("Current time: " + EL.getCurrentTime());
 
-        if(EL.getPastEvents().get(0).equals(this.Events[0]) && EL.getCurrentTime() == this.Events[1].get_time())
+        if(EL.getPastEvents().get(0).equals(this.Events[0]) && EL.getCurrentTime() == this.Events[1].getTime())
             return true;
         else
             return false;

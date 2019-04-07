@@ -16,25 +16,27 @@ public class TEvent {
         this.type = type;
     }
 
-    public double get_time(){
-        return this.time;
+    public double getTime() {
+        return time;
     }
 
-    public void set_sime(double _time){
-        this.time = _time;
+    public void setTime(double time) {
+        this.time = time;
     }
 
-    public String get_type(){
-        return this.type;
+    public String getType() {
+        return type;
     }
 
-    public void set_type(String _type){
-        this.type = _type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
-    public String toString(){
-        final String s = this.get_type() + " " + this.get_time();
-        return s;
+    public String toString() {
+        return "TEvent{" +
+                "time=" + time +
+                ", type='" + type + '\'' +
+                '}';
     }
 }

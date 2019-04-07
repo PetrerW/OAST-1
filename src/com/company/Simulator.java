@@ -29,7 +29,7 @@ public class Simulator{
 
         while(!interrupted){
             TEvent Next = eventLine.get();
-            currentTime = Next.get_time();
+            currentTime = Next.getTime();
             handleEvent(Next);
         }
 
@@ -48,7 +48,7 @@ public class Simulator{
      * @param T Next Event taken from an event line
      */
     private void handleEvent(TEvent T){
-        String type = T.get_type();
+        String type = T.getType();
         if(type.equals(EventTypes.chunk)){
             //TODO: Handle Chunk event
         }

@@ -35,7 +35,7 @@ public class EventLine{
         if(!this.incomingEvents.isEmpty()){
             TEvent Next = this.incomingEvents.removeLast();
             this.pastEvents.add(Next);
-            this.currentTime = this.incomingEvents.getLast().get_time();
+            this.currentTime = this.incomingEvents.getLast().getTime();
             return Next;
         }
         else
@@ -47,7 +47,7 @@ public class EventLine{
      * @return true if succeeded
      */
     public boolean put(TEvent NewEvent){
-        double newTime = NewEvent.get_time();
+        double newTime = NewEvent.getTime();
         if(newTime>=this.currentTime){
             // add() moves to the right all subsequent elements
             int index = findFirstLowerThan(newTime);
@@ -64,7 +64,7 @@ public class EventLine{
      */
     private int findFirstLowerThan(double _time){
         TEvent E = this.incomingEvents.stream()
-                .filter(x -> x.get_time() < _time)
+                .filter(x -> x.getTime() < _time)
                 .findFirst()
                 .orElse(null);
 

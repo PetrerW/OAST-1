@@ -13,7 +13,7 @@ public class RandomGenerator {
      * Generates a value from exponential distribution
      * @return
      */
-    public static double get_Exp(double lambda){
+    public static double getExp(double lambda){
         double w = R.nextDouble();
         return (1/lambda)*Math.log(w);
     }
