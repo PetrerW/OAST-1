@@ -14,7 +14,7 @@ public class RandomGenerator {
      * @return
      */
     public static double getExp(double lambda){
-        double w = R.nextDouble();
-        return (1/lambda)*Math.log(w);
+        double w = 1 - R.nextDouble();
+        return Math.log(w)/lambda;
     }
 }

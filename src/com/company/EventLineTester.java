@@ -11,11 +11,11 @@ public class EventLineTester {
      */
     private TEvent[] generateEvents(){
         TEvent[] Arr = {
-                (new TEvent(0.5, "A")),
-                (new TEvent(1, "B")),
-                (new TEvent(1.5, "C")),
-                (new TEvent(2.0, "A")),
-                (new TEvent(2.5, "B"))
+                (new TEvent(0.5, EventTypes.Type.CHUNK)),
+                (new TEvent(1, EventTypes.Type.SESSION_START)),
+                (new TEvent(1.5, EventTypes.Type.SESSION_END)),
+                (new TEvent(2.0, EventTypes.Type.CHUNK)),
+                (new TEvent(2.5, EventTypes.Type.PING))
         };
 
         return Arr;
@@ -53,7 +53,7 @@ public class EventLineTester {
         for (int i = 0; i < this.Events.length; i++) {
             System.out.println("[" + i + "]" + this.Events[i]);
         }
-        TEvent E = new TEvent(1.75, "B");
+        TEvent E = new TEvent(1.75, EventTypes.Type.SESSION_START);
         EL.put(E);
         System.out.println("After adding an Event:");
         for (int i = 0; i < EL.getIncomingEvents().size(); i++) {

@@ -6,31 +6,30 @@ public class Simulator{
 
     private EventLine eventLine;
     private double currentTime;
-    private HashMap<String, Double> serviceTimes;
+    private HashMap<EventTypes.Type, Double> serviceTimes;
     private boolean interrupted;
+    private double avarageServiceTime;
 
     public Simulator(){
         serviceTimes = new HashMap<>();
-        serviceTimes.put(EventTypes.chunk, 0.25);
-        serviceTimes.put(EventTypes.ping, 0.1);
-        serviceTimes.put(EventTypes.sessionStart, 1.0);
-        serviceTimes.put(EventTypes.sessionEnd, 0.5);
+        serviceTimes.put(EventTypes.Type.CHUNK, 0.25);
+        serviceTimes.put(EventTypes.Type.PING, 0.1);
+        serviceTimes.put(EventTypes.Type.SESSION_START, 1.0);
+        serviceTimes.put(EventTypes.Type.SESSION_END, 0.5);
 
+        avarageServiceTime = 0.125;
         currentTime = 0;
-        eventLine = new EventLine();
+        eventLine = initializeEventLine();
         interrupted = false;
     }
 
     //TODO: Add a thread that will listen for finishing the
 
     public void simulate(){
-        initializeEventLine();
-        interrupted = false;
 
         while(!interrupted){
-            TEvent Next = eventLine.get();
-            currentTime = Next.getTime();
-            handleEvent(Next);
+            TEvent next = eventLine.get();
+            handleEvent(next);
         }
 
     }
@@ -39,31 +38,36 @@ public class Simulator{
      * Initializes eventLine with some random values
      * Sets beginning values to the
      */
-    private void initializeEventLine(){
+    private EventLine initializeEventLine(){
         //TODO: Initialize eventLine with some random values
+        return null;
     }
 
     /**
      * Handles incoming event with an appropriate method
-     * @param T Next Event taken from an event line
+     * @param t Next Event taken from an event line
      */
-    private void handleEvent(TEvent T){
-        String type = T.getType();
-        if(type.equals(EventTypes.chunk)){
-            //TODO: Handle Chunk event
+    private void handleEvent(TEvent t){
+        currentTime = t.getTime();
+        EventTypes.Type type = t.getType();
+        switch (type){
+            case CHUNK:
+                handleChunk(t);
+                break;
+            case SESSION_START:
+                handleSessionStart(t);
+                break;
+            case SESSION_END:
+                handleSessionEnd(t);
+                break;
+            case PING:
+                handlePing(t);
+                break;
+            default:
+                handlePing(t);
+                break;
         }
-        else if(type.equals(EventTypes.sessionStart)) {
-            //TODO: Handle session start
-        }
-        else if(type.equals(EventTypes.sessionEnd)) {
-            //TODO: Handle here session end
-        }
-        else if(type.equals(EventTypes.ping)){
-            //TODO: Handle here ping
-        }
-        else{
-            //TODO: Handle unknkown event type
-        }
+
     }
 
     private void handleChunk(TEvent T){

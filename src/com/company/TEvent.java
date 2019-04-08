@@ -4,14 +4,14 @@ package com.company;
 public class TEvent {
     //Arrival time
     private double time;
-    private String type;
+    private EventTypes.Type type;
 
     public TEvent(){
         time = 0;
-        type = "A";
+        type = EventTypes.Type.CHUNK;
     }
 
-    public TEvent(double time, String type){
+    public TEvent(double time, EventTypes.Type type){
         this.time = time;
         this.type = type;
     }
@@ -24,11 +24,12 @@ public class TEvent {
         this.time = time;
     }
 
-    public String getType() {
+
+    public EventTypes.Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EventTypes.Type type) {
         this.type = type;
     }
 
@@ -36,7 +37,7 @@ public class TEvent {
     public String toString() {
         return "TEvent{" +
                 "time=" + time +
-                ", type='" + type + '\'' +
+                ", type=" + type +
                 '}';
     }
 }
