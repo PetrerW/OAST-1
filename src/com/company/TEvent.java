@@ -2,18 +2,24 @@ package com.company;
 
 //queue Event
 public class TEvent {
-    //Arrival time
+
     private double time;
     private EventTypes.Type type;
-
-    public TEvent(){
-        time = 0;
-        type = EventTypes.Type.CHUNK;
-    }
+    /*
+     * To identify arrival and departure events for the same client
+     */
+    private int clientId;
 
     public TEvent(double time, EventTypes.Type type){
         this.time = time;
         this.type = type;
+        clientId = -1;
+    }
+
+    public TEvent(double time, EventTypes.Type type, int clientId){
+        this.time = time;
+        this.type = type;
+        this.clientId = clientId;
     }
 
     public double getTime() {
@@ -31,6 +37,14 @@ public class TEvent {
 
     public void setType(EventTypes.Type type) {
         this.type = type;
+    }
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     @Override

@@ -1,36 +1,39 @@
 package com.company;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Simulator{
 
     private EventLine eventLine;
     private double currentTime;
-    private HashMap<EventTypes.Type, Double> serviceTimes;
-    private boolean interrupted;
-    private double avarageServiceTime;
+    private double averageServiceTime;
+    private System system;
+    private double simulationTime = 5;
+    private int numberOfEvents = 20;
+    private Report report;
 
     public Simulator(){
-        serviceTimes = new HashMap<>();
-        serviceTimes.put(EventTypes.Type.CHUNK, 0.25);
-        serviceTimes.put(EventTypes.Type.PING, 0.1);
-        serviceTimes.put(EventTypes.Type.SESSION_START, 1.0);
-        serviceTimes.put(EventTypes.Type.SESSION_END, 0.5);
-
-        avarageServiceTime = 0.125;
+        averageServiceTime = 0.125;
         currentTime = 0;
         eventLine = initializeEventLine();
-        interrupted = false;
+        system = new System();
+        Log.info("Simulation created");
     }
-
-    //TODO: Add a thread that will listen for finishing the
 
     public void simulate(){
 
-        while(!interrupted){
-            TEvent next = eventLine.get();
-            handleEvent(next);
+        Log.info("Simulation started");
+
+        while(!eventLine.getIncomingEvents().isEmpty()){
+            handleEvent(eventLine.get());
         }
+
+        Log.info("Simulation ended");
+
+        Log.info("Generating report");
+        report = new Report();
+        report.generateReport(eventLine.getPastEvents());
+        Log.info("Report generated");
 
     }
 
@@ -40,7 +43,19 @@ public class Simulator{
      */
     private EventLine initializeEventLine(){
         //TODO: Initialize eventLine with some random values
-        return null;
+        //TODO: Remove HARD CODE
+
+        LinkedList<TEvent> incomingEvents = new LinkedList<>();
+        LinkedList<TEvent> pastEvents = new LinkedList<>();
+
+        for(int i = 0; i <numberOfEvents; i++){
+            incomingEvents.add(new TEvent(RandomGenerator.getDouble(0,simulationTime), EventTypes.Type.EVENT_ARRIVAL));
+        }
+
+        Log.info("EventLine initialized\n\tNumber of incoming events: " + incomingEvents.size()
+                + "\n\tNumber of past events: " + pastEvents.size());
+
+        return new EventLine(incomingEvents,pastEvents);
     }
 
     /**
@@ -51,43 +66,47 @@ public class Simulator{
         currentTime = t.getTime();
         EventTypes.Type type = t.getType();
         switch (type){
-            case CHUNK:
-                handleChunk(t);
+            case EVENT_ARRIVAL:
+                handleArrival(t);
                 break;
-            case SESSION_START:
-                handleSessionStart(t);
-                break;
-            case SESSION_END:
-                handleSessionEnd(t);
-                break;
-            case PING:
-                handlePing(t);
+            case EVENT_DEPARTURE:
+                handleDeparture(t);
                 break;
             default:
-                handlePing(t);
+                handleUnknownEvent(t);
                 break;
         }
 
     }
 
-    private void handleChunk(TEvent T){
-        //TODO
+    private void handleArrival(TEvent t){
+        Log.info("Handling arrival\n\tCurrent time: " + currentTime);
+
+        if(system.getNumberOfClientsInSystem() == 0){
+            t.setClientId(system.addClient());
+            eventLine.put(new TEvent(currentTime+ averageServiceTime,
+                    EventTypes.Type.EVENT_DEPARTURE,t.getClientId()));
+        }
+        else{
+            t.setClientId(system.addClient());
+        }
     }
 
-    private void handleSessionStart(TEvent T){
-        //TODO: Generate a random number of Chunk events (Poisson)
-        //TODO: Generate one sessionEnd event
-    }
+    private void handleDeparture(TEvent t){
+        Log.info("Handling departure\n\tCurrent time: " + currentTime +
+                "\n\tclientId: " + t.getClientId());
 
-    private void handleSessionEnd(TEvent T){
-        //TODO: Generate 1 or 2 SessionStart events (Poisson)
-    }
+        system.removeClient();
 
-    private void handlePing(TEvent T){
-        //TODO
+        if(system.getNumberOfClientsInSystem() > 0){
+            eventLine.put(new TEvent(currentTime+ averageServiceTime, EventTypes.Type.EVENT_DEPARTURE,
+                    //+1 because next client waiting for service has id 1 higher
+                    (t.getClientId()+1) ));
+        }
     }
 
     private void handleUnknownEvent(TEvent T){
         //TODO
     }
+
 }
