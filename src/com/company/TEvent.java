@@ -2,39 +2,56 @@ package com.company;
 
 //queue Event
 public class TEvent {
-    //Arrival time
-    private double time;
-    private String type;
 
-    public TEvent(){
-        time = 0;
-        type = "A";
+    private double time;
+    private EventTypes.Type type;
+    /*
+     * To identify arrival and departure events for the same client
+     */
+    private int clientId;
+
+    public TEvent(double time, EventTypes.Type type){
+        this.time = time;
+        this.type = type;
+        clientId = -1;
     }
 
-    public TEvent(double time, String type){
+    public TEvent(double time, EventTypes.Type type, int clientId){
         this.time = time;
+        this.type = type;
+        this.clientId = clientId;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
+
+
+    public EventTypes.Type getType() {
+        return type;
+    }
+
+    public void setType(EventTypes.Type type) {
         this.type = type;
     }
 
-    public double get_time(){
-        return this.time;
+    public int getClientId() {
+        return clientId;
     }
 
-    public void set_sime(double _time){
-        this.time = _time;
-    }
-
-    public String get_type(){
-        return this.type;
-    }
-
-    public void set_type(String _type){
-        this.type = _type;
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
     @Override
-    public String toString(){
-        final String s = this.get_type() + " " + this.get_time();
-        return s;
+    public String toString() {
+        return "TEvent{" +
+                "time=" + time +
+                ", type=" + type +
+                '}';
     }
 }
