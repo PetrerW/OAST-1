@@ -1,6 +1,5 @@
 package com.company;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Collections;
 
@@ -9,21 +8,18 @@ public class EventLine{
     //Lowest time in the end of the list
     private LinkedList<TEvent> incomingEvents;
     private LinkedList<TEvent> pastEvents;
-    private double currentTime;
 
     public EventLine(){
-        currentTime = 0;
         pastEvents = new LinkedList<TEvent>();
         incomingEvents = new LinkedList<TEvent>();
     }
 
-    public EventLine(TEvent[] incoming, TEvent[] past, double _currentTime){
-        this.incomingEvents = new LinkedList<TEvent>();
-        this.incomingEvents.addAll(Arrays.asList(incoming));
-        Collections.sort(this.incomingEvents, new TEventComparator());
-        this.pastEvents = new LinkedList<TEvent>();
-        this.pastEvents.addAll(Arrays.asList(past));
-        Collections.sort(this.pastEvents, new TEventComparator());
+
+    public EventLine(LinkedList<TEvent> incomingEvents, LinkedList<TEvent> pastEvents){
+        this.incomingEvents = incomingEvents;
+        sortEvents(incomingEvents);
+        this.pastEvents = pastEvents;
+        sortEvents(pastEvents);
     }
 
     /**
@@ -33,50 +29,30 @@ public class EventLine{
      **/
     public TEvent get(){
         if(!this.incomingEvents.isEmpty()){
-            TEvent Next = this.incomingEvents.removeLast();
-            this.pastEvents.add(Next);
-            this.currentTime = this.incomingEvents.getLast().getTime();
-            return Next;
+            TEvent next = this.incomingEvents.removeLast();
+            this.pastEvents.add(next);
+            return next;
         }
         else
             return null;
     }
 
     /**
-     * @param NewEvent - an event do be added
-     * @return true if succeeded
+     * After initialization the only elements to be added are DEPARTURE_EVENTS
+     * Their time is 0,125
+     * @param newEvent - an event do be added
      */
-    public boolean put(TEvent NewEvent){
-        double newTime = NewEvent.getTime();
-        if(newTime>=this.currentTime){
-            // add() moves to the right all subsequent elements
-            int index = findFirstLowerThan(newTime);
-            this.incomingEvents.add(index, NewEvent);
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    /**
-     * @return Index of the first event with greater time of arrival than the _time
-     */
-    private int findFirstLowerThan(double _time){
-        TEvent E = this.incomingEvents.stream()
-                .filter(x -> x.getTime() < _time)
-                .findFirst()
-                .orElse(null);
-
-        return this.incomingEvents.indexOf(E);
+    public void put(TEvent newEvent){
+        incomingEvents.addLast(newEvent);
+        sortEvents(incomingEvents);
     }
 
     public LinkedList<TEvent> getIncomingEvents() {
         return incomingEvents;
     }
 
-    public void setIncomingEvents(LinkedList<TEvent> IncomingEvents){
-        this.incomingEvents = IncomingEvents;
+    public void setIncomingEvents(LinkedList<TEvent> incomingEvents){
+        this.incomingEvents = incomingEvents;
     }
 
     public LinkedList<TEvent> getPastEvents(){
@@ -87,11 +63,7 @@ public class EventLine{
         this.pastEvents = PastEvents;
     }
 
-    public double getCurrentTime(){
-        return this.currentTime;
-    }
-
-    public void setCurrentTime(double time){
-        this.currentTime = time;
+    public void sortEvents(LinkedList<TEvent> eventsList){
+        Collections.sort(eventsList, new TEventComparator());
     }
 }
