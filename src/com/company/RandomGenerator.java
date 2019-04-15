@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
+import org.apache.commons.math3.distribution.PoissonDistribution;
 /**
  * Generates Poisson and exponential values
  */
@@ -30,4 +30,3 @@ public class RandomGenerator {
         return ThreadLocalRandom.current().nextDouble(min, max);
 
     }
-}
