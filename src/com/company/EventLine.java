@@ -24,7 +24,6 @@ public class EventLine{
 
     /**
      * Removes the element from the incoming events list with the lowest time and adds it to the past events list
-     * Updates simulation time
      * @return the element of the incoming events list with the lowest time or null if the list is empty
      **/
     public TEvent get(){
@@ -65,5 +64,9 @@ public class EventLine{
 
     public void sortEvents(LinkedList<TEvent> eventsList){
         Collections.sort(eventsList, new TEventComparator());
+    }
+
+    public void sortEvents(){
+        Collections.sort(this.incomingEvents, new TEventComparator());
     }
 }

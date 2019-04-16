@@ -15,7 +15,7 @@ public class RGTester {
             double lambda = Double.parseDouble(L);
 
             for(int i=0; i<100; i++) {
-                int theNumber = RandomGenerator.getPoisson(lambda);
+                double theNumber = RandomGenerator.getPoisson(lambda);
                 java.lang.System.out.println(theNumber);
             }
         }

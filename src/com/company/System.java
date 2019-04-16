@@ -6,10 +6,14 @@ package com.company;
 public class System {
 
     int numberOfClientsInSystem;
-    /*
+    /**
      * Number of all clients in system during simulation. Used to define client_id
      */
     int totalNumberOfClients;
+
+    final int offAverageTime = 35;
+
+    final int onAverageTime = 40;
 
     public System(){
         numberOfClientsInSystem = 0;
@@ -36,9 +40,9 @@ public class System {
 
     public int addClient(){
         numberOfClientsInSystem++;
-        Log.info("Client added.\n\tclientId: " + (++totalNumberOfClients) +
+        totalNumberOfClients++;
+        Log.info("Client added.\n\tclientId: " + (totalNumberOfClients) +
                 "\n\tNumber of clients in system: " + numberOfClientsInSystem);
-
 
         return totalNumberOfClients;
     }
@@ -49,5 +53,13 @@ public class System {
             numberOfClientsInSystem--;
         }
         Log.info("Client removed.\n\tNumber of clients in system: " + numberOfClientsInSystem);
+    }
+
+    public int getOffAverageTime() {
+        return offAverageTime;
+    }
+
+    public int getOnAverageTime() {
+        return onAverageTime;
     }
 }

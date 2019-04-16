@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class Simulator{
@@ -8,15 +9,15 @@ public class Simulator{
     private double currentTime;
     private double averageServiceTime;
     private System system;
-    private double simulationTime = 5;
+    private double simulationTime = 1000;
     private int numberOfEvents = 20;
     private Report report;
 
     public Simulator(){
         averageServiceTime = 0.125;
         currentTime = 0;
-        eventLine = initializeEventLine();
         system = new System();
+        eventLine = initializeEventLine(0);
         Log.info("Simulation created");
     }
 
@@ -40,9 +41,10 @@ public class Simulator{
     /**
      * Initializes eventLine with some random values
      * Sets beginning values to the
+     * @param lambda arrivals intensity
      */
-    private EventLine initializeEventLine(){
-        //TODO: Initialize eventLine with some random values
+    private EventLine initializeEventLine(double lambda){
+        //TODO: Initialize eventLine with some Poisson distributed values
         //TODO: Remove HARD CODE
 
         LinkedList<TEvent> incomingEvents = new LinkedList<>();
@@ -51,6 +53,12 @@ public class Simulator{
         for(int i = 0; i <numberOfEvents; i++){
             incomingEvents.add(new TEvent(RandomGenerator.getDouble(0,simulationTime), EventTypes.Type.EVENT_ARRIVAL));
         }
+
+        //Start turning the system off and on
+        if(simulationTime > system.getOnAverageTime())
+            incomingEvents.add(new TEvent(RandomGenerator.getExp(system.getOnAverageTime()), EventTypes.Type.SYSTEM_OFF));
+
+        Collections.sort(incomingEvents, new TEventComparator());
 
         Log.info("EventLine initialized\n\tNumber of incoming events: " + incomingEvents.size()
                 + "\n\tNumber of past events: " + pastEvents.size());
@@ -76,15 +84,17 @@ public class Simulator{
                 handleUnknownEvent(t);
                 break;
         }
-
     }
 
     private void handleArrival(TEvent t){
         Log.info("Handling arrival\n\tCurrent time: " + currentTime);
 
-        if(system.getNumberOfClientsInSystem() == 0){
+        if(system.getNumberOfClientsInSystem() == 0 ||
+                //0 or 1 clients in the system mean that it is not busy
+                system.getNumberOfClientsInSystem() == 1){
+
             t.setClientId(system.addClient());
-            eventLine.put(new TEvent(currentTime+ averageServiceTime,
+            eventLine.put(new TEvent(currentTime + RandomGenerator.getExp(averageServiceTime),
                     EventTypes.Type.EVENT_DEPARTURE,t.getClientId()));
         }
         else{
@@ -99,14 +109,43 @@ public class Simulator{
         system.removeClient();
 
         if(system.getNumberOfClientsInSystem() > 0){
-            eventLine.put(new TEvent(currentTime+ averageServiceTime, EventTypes.Type.EVENT_DEPARTURE,
+            eventLine.put(new TEvent(currentTime + RandomGenerator.getExp(averageServiceTime), EventTypes.Type.EVENT_DEPARTURE,
                     //+1 because next client waiting for service has id 1 higher
                     (t.getClientId()+1) ));
         }
     }
 
+    private void handleSystemOn(TEvent t){
+        Log.info("System ON");
+        eventLine.put(new TEvent(RandomGenerator.getExp(system.getOffAverageTime()), EventTypes.Type.SYSTEM_OFF));
+        eventLine.sortEvents();
+    }
+
+    private void handleSystemOff(TEvent t){
+        //Add SYSTEM_ON Event after SYSTEM_OFF time
+        //Find all the next incoming departure event that will happen in the system-off window
+        //move them after the next SYSTEM_ON (add to their time system-off window duration)
+
+        Log.info("Handling system OFF");
+        //Determine System-off window
+        double windowStart = t.getTime();
+        double windowDuration = RandomGenerator.getExp(system.getOnAverageTime());
+        double windowEnd = t.getTime() + windowDuration;
+
+        //Add system ON event
+        eventLine.put(new TEvent(windowEnd, EventTypes.Type.SYSTEM_ON));
+
+        //Move departures from system-off window
+        for (TEvent e: eventLine.getIncomingEvents()) {
+            if(e.getType().equals(EventTypes.Type.EVENT_DEPARTURE) && e.getTime() < windowEnd && e.getTime() >= windowStart){
+                e.setTime(e.getTime() + windowDuration);
+            }
+        }
+
+        eventLine.sortEvents();
+    }
+
     private void handleUnknownEvent(TEvent T){
         //TODO
     }
-
 }

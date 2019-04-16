@@ -2,13 +2,12 @@ package com.company;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import org.apache.commons.math3.distribution.PoissonDistribution;
 /**
  * Generates Poisson and exponential values
  */
 public class RandomGenerator {
 
-    private static Random R;
+    private static Random R = new Random();
 
     /**
      * Generates a value from exponential distribution
@@ -30,8 +29,14 @@ public class RandomGenerator {
      */
     public static double getDouble(double min, double max) {
         return ThreadLocalRandom.current().nextDouble(min, max);
-
     }
 
-    
+    /**
+     * @param lambda
+     * @return Poisson distributed
+     */
+    public static double getPoisson(double lambda) {
+        //TODO
+        return 0;
+    }
 }

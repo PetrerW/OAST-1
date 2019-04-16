@@ -3,8 +3,7 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-//        Simulator simulator = new Simulator();
-//        simulator.simulate();
-        RGTester.testPoisson();
+        Simulator simulator = new Simulator();
+        simulator.simulate();
     }
 }
