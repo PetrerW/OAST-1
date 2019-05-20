@@ -2,6 +2,8 @@ package com.company;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import org.apache.commons.math3.distribution.PoissonDistribution;
+
 /**
  * Generates Poisson and exponential values
  */
@@ -36,7 +38,7 @@ public class RandomGenerator {
      * @return Poisson distributed
      */
     public static double getPoisson(double lambda) {
-        //TODO
-        return 0;
+        PoissonDistribution P = new PoissonDistribution(lambda);
+        return P.sample();
     }
 }
