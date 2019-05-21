@@ -23,6 +23,14 @@ public class Simulator{
         Log.info("Simulation created");
     }
 
+    public Simulator(double lambda){
+        averageServiceTime = 0.125;
+        currentTime = 0;
+        system = new System();
+        eventLine = initializeEventLine(lambda);
+        Log.info("Simulation created");
+    }
+
     public void simulate(){
 
         Log.info("Simulation started");
@@ -37,7 +45,6 @@ public class Simulator{
         report = new Report();
         report.generateReport(eventLine.getPastEvents());
         Log.info("Report generated");
-
     }
 
     /**
@@ -45,9 +52,8 @@ public class Simulator{
      * Sets beginning values to the
      * @param lambda arrivals intensity
      */
-    private EventLine initializeEventLine(double lambda){
+    public EventLine initializeEventLine(double lambda){
         //TODO: Remove HARD CODE
-        //TODO: A test that checks if values are unique
         if(lambda > 0){
             LinkedList<TEvent> incomingEvents = new LinkedList<>();
             LinkedList<TEvent> pastEvents = new LinkedList<>();
@@ -59,16 +65,19 @@ public class Simulator{
                     i--;
                 }
                 else
-                    incomingEvents.add(new TEvent(arrivalTime, EventTypes.Type.EVENT_ARRIVAL));
+                    incomingEvents.add(new TEvent(arrivalTime,
+                            EventTypes.Type.EVENT_ARRIVAL));
             }
 
             //Start turning the system off and on
             //if(simulationTime > system.getOnAverageTime())
-                incomingEvents.add(new TEvent(RandomGenerator.getExp(system.getOnAverageTime()), EventTypes.Type.SYSTEM_OFF));
+                incomingEvents.add(new TEvent(RandomGenerator.getExp(
+                        system.getOnAverageTime()), EventTypes.Type.SYSTEM_OFF));
 
             Collections.sort(incomingEvents, new TEventComparator());
 
-            Log.info("EventLine initialized\n\tNumber of incoming events: " + incomingEvents.size()
+            Log.info("EventLine initialized\n\tNumber of incoming events: "
+                    + incomingEvents.size()
                     + "\n\tNumber of past events: " + pastEvents.size());
 
             return new EventLine(incomingEvents,pastEvents);
