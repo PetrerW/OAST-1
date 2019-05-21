@@ -38,7 +38,7 @@ public class RandomGenerator {
      * @return Poisson distributed
      */
     public static double getPoisson(double lambda) {
-        PoissonDistribution P = new PoissonDistribution(lambda);
-        return P.sample();
+        PoissonDistribution P = new PoissonDistribution(lambda*1000);
+        return (double)(P.sample())/1000;
     }
 }

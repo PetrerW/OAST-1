@@ -1,7 +1,9 @@
 package com.company;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Optional;
 
 public class Simulator{
 
@@ -44,26 +46,34 @@ public class Simulator{
      * @param lambda arrivals intensity
      */
     private EventLine initializeEventLine(double lambda){
-        //TODO: Initialize eventLine with some Poisson distributed values
         //TODO: Remove HARD CODE
+        //TODO: A test that checks if values are unique
+        if(lambda > 0){
+            LinkedList<TEvent> incomingEvents = new LinkedList<>();
+            LinkedList<TEvent> pastEvents = new LinkedList<>();
 
-        LinkedList<TEvent> incomingEvents = new LinkedList<>();
-        LinkedList<TEvent> pastEvents = new LinkedList<>();
+            for(int i = 0; i <numberOfEvents; i++){
+                double arrivalTime = RandomGenerator.getPoisson(lambda);
+                if(incomingEvents.stream().anyMatch(event -> event.getTime() == arrivalTime)){
+                    //We need one more iteration
+                    i--;
+                }
+                else
+                    incomingEvents.add(new TEvent(arrivalTime, EventTypes.Type.EVENT_ARRIVAL));
+            }
 
-        for(int i = 0; i <numberOfEvents; i++){
-            incomingEvents.add(new TEvent(RandomGenerator.getDouble(0,simulationTime), EventTypes.Type.EVENT_ARRIVAL));
-        }
+            //Start turning the system off and on
+            //if(simulationTime > system.getOnAverageTime())
+                incomingEvents.add(new TEvent(RandomGenerator.getExp(system.getOnAverageTime()), EventTypes.Type.SYSTEM_OFF));
 
-        //Start turning the system off and on
-        if(simulationTime > system.getOnAverageTime())
-            incomingEvents.add(new TEvent(RandomGenerator.getExp(system.getOnAverageTime()), EventTypes.Type.SYSTEM_OFF));
+            Collections.sort(incomingEvents, new TEventComparator());
 
-        Collections.sort(incomingEvents, new TEventComparator());
+            Log.info("EventLine initialized\n\tNumber of incoming events: " + incomingEvents.size()
+                    + "\n\tNumber of past events: " + pastEvents.size());
 
-        Log.info("EventLine initialized\n\tNumber of incoming events: " + incomingEvents.size()
-                + "\n\tNumber of past events: " + pastEvents.size());
-
-        return new EventLine(incomingEvents,pastEvents);
+            return new EventLine(incomingEvents,pastEvents);
+        }else
+            return new EventLine();
     }
 
     /**

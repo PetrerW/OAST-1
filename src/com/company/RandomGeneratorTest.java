@@ -1,18 +1,14 @@
 package com.company;
 
-import java.lang.System;
+import junit.framework.TestCase;
+
 import java.util.Scanner;
 
-/**
- * A RandomGenerator class tester
- */
-public class RGTester {
+public class RandomGeneratorTest extends TestCase {
 
-    public static void testPoisson(){
+    public void testGetPoisson() {
         try{
-            Scanner in = new Scanner(System.in);
-            String L = in.nextLine();
-            double lambda = Double.parseDouble(L);
+            double lambda = 6.0;
 
             for(int i=0; i<100; i++) {
                 double theNumber = RandomGenerator.getPoisson(lambda);
