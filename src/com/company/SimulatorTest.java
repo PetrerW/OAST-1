@@ -23,7 +23,7 @@ class SimulatorTest {
         Simulator simulator = new Simulator();
         EventLine e = new EventLine();
         for (int i = 0; i < 100; i++) {
-            e = simulator.initializeEventLine(6);
+            e = simulator.initializeEventLine(6, false);
             Set<TEvent> noDups = new LinkedHashSet<TEvent>(e.getIncomingEvents());
             Assert.assertTrue(Arrays.equals(e.getIncomingEvents().toArray(),
                     noDups.toArray()));

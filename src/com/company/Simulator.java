@@ -191,6 +191,6 @@ public class Simulator{
     }
 
     private void handleUnknownEvent(TEvent T){
-        //TODO
+        Log.info("Received an unknown Event");
     }
 }

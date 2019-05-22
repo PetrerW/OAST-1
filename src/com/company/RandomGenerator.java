@@ -2,6 +2,8 @@ package com.company;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.commons.math3.distribution.ExponentialDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
 
 /**
@@ -17,8 +19,10 @@ public class RandomGenerator {
      * @return
      */
     public static double getExp(double lambda) {
-        double w = 1 - R.nextDouble();
-        return Math.log(w) / lambda;
+//        double w = 1 - R.nextDouble();
+        ExponentialDistribution E = new ExponentialDistribution(40);
+        return E.sample();
+//        return (-1) * (Math.log(w));
     }
 
     /**

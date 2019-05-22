@@ -8,7 +8,7 @@ public class TEventComparator implements Comparator<TEvent> {
         if(T1.getTime() < T2.getTime()) {
             return 1;
         }
-        //TODO check if it's correct
+        //TODO check if it's correct and TEST
         else if(T1.getTime() == T2.getTime()){
             if((T1.getType()==EventTypes.Type.EVENT_ARRIVAL
                 || T1.getType()==EventTypes.Type.EVENT_DEPARTURE)
