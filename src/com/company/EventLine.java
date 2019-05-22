@@ -14,7 +14,6 @@ public class EventLine{
         incomingEvents = new LinkedList<TEvent>();
     }
 
-
     public EventLine(LinkedList<TEvent> incomingEvents, LinkedList<TEvent> pastEvents){
         this.incomingEvents = incomingEvents;
         sortEvents(incomingEvents);

@@ -18,7 +18,8 @@ public class System {
     public System(){
         numberOfClientsInSystem = 0;
         totalNumberOfClients = 0;
-        Log.info("System created.\n\tNumber of clients in system: " + numberOfClientsInSystem);
+        Log.info("System created.\n\tNumber of clients in system: " +
+                numberOfClientsInSystem);
 
     }
 
@@ -52,7 +53,8 @@ public class System {
         if(numberOfClientsInSystem > 0) {
             numberOfClientsInSystem--;
         }
-        Log.info("Client removed.\n\tNumber of clients in system: " + numberOfClientsInSystem);
+        Log.info("Client removed.\n\tNumber of clients in system: " +
+                numberOfClientsInSystem);
     }
 
     public int getOffAverageTime() {
