@@ -1,5 +1,6 @@
-package com.company;
+package com.company.Test;
 
+import com.company.RandomGenerator;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;

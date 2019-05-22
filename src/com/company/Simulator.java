@@ -39,7 +39,7 @@ public class Simulator{
         Log.info("Simulation created");
     }
 
-    public void simulate(){
+    public LinkedList<TEvent> simulate(){
 
         Log.info("Simulation started");
 
@@ -49,10 +49,7 @@ public class Simulator{
 
         Log.info("Simulation ended");
 
-        Log.info("Generating report");
-        report = new Report();
-        report.generateReport(eventLine.getPastEvents());
-        Log.info("Report generated");
+        return eventLine.getPastEvents();
     }
 
     /**
