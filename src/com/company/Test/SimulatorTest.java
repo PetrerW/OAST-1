@@ -23,7 +23,7 @@ class SimulatorTest {
 
     @Test
     public void testInitializeEventLine() {
-        Simulator simulator = new Simulator();
+        Simulator simulator = new Simulator(100);
         EventLine e = new EventLine();
         for (int i = 0; i < 100; i++) {
             e = simulator.initializeEventLine(6, false);
