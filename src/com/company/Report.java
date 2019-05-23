@@ -9,6 +9,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/*
+        Generates report in format
+        <lambda>; blank field; <list of averages delays>
+     */
+
 public class Report {
 
     private String fileName = "default.txt";
@@ -17,27 +22,15 @@ public class Report {
         this.fileName = fileName;
     }
 
-    /*
-        Generates report in format
-        <lambda>, <list of averages delays>
-     */
-    public void generateReport(double lambda, List<LinkedList<TEvent>> eventsLists) {
-        String report = lambda + ";";
-        for (LinkedList<TEvent> eventsList : eventsLists) {
-            report += calculateAverageDelay(eventsList) + ";";
-        }
-        report += "\n";
 
-        printToFile(fileName, report);
-    }
 
     /*
     Generates report in format
-    <lambda>, <list of averages delays>
+    <lambda>, <list of averages delays in milliseconds>
     Warm up parameter is used
     */
     public void generateReport(double lambda, List<LinkedList<TEvent>> eventsLists, int warpUpIndex) {
-        String report = lambda + ";";
+        String report = lambda + ";;";
         for (LinkedList<TEvent> eventsList : eventsLists) {
             report += calculateAverageDelay(eventsList, warpUpIndex) + ";";
         }
