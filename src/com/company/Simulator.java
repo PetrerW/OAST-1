@@ -54,7 +54,8 @@ public class Simulator{
         Log.info("Simulation created");
     }
 
-    public Simulator(float lambda, boolean onoff, int simulationTime, boolean uniformDistribution){
+    public Simulator(float lambda, boolean onoff, int simulationTime,
+                     boolean uniformDistribution){
         this.simulationTime = simulationTime;
         averageServiceTime = 0.125;
         minServiceTime = 0.1;
@@ -168,7 +169,8 @@ public class Simulator{
 
         if(system.getNumberOfClientsInSystem() == 0 //||
                 //0 or 1 clients in the system mean that it is not busy.
-                //No. 1 means that already is 1 event in system and the event being handled is second one
+                //No. 1 means that already is 1 event in system and the event being
+                // handled is second one
                 //system.getNumberOfClientsInSystem() == 1
                 ){
 
@@ -197,8 +199,8 @@ public class Simulator{
 
     private void handleSystemOn(TEvent t){
         Log.info("System ON");
-        eventLine.put(new TEvent(RandomGenerator.getExp(system.getOffAverageTime()) + t.getTime(),
-                EventTypes.Type.SYSTEM_OFF));
+        eventLine.put(new TEvent(RandomGenerator.getExp(system.getOffAverageTime()) +
+                t.getTime(), EventTypes.Type.SYSTEM_OFF));
         eventLine.sortEvents();
     }
 

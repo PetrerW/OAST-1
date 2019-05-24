@@ -24,7 +24,8 @@ public class Main {
     private static void partOne() {
 
         /*
-            Tzw. rozbieg. Index of event that is the first to be considered while preparing report
+            Tzw. rozbieg. Index of event that is the first to be considered
+            while preparing report
          */
         int warmUpIndex = 4;
         int numberOfReplicationsForLambda = 40;
